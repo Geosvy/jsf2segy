@@ -1,0 +1,35 @@
+Program jsf2segy extracts chirp subbottom data from an Edgetech .jsf formatted file.
+
+The .jsf file can contain any combination of subbottom and side scan sonar data or other data as described
+in Edgetech JSF Data File Description 1.20. jsf2segy will create an SEG Y file from jsf subbottom data and header records.
+The SEG Y rev 1 Data Exchange Release 1.0 May 2002 is described a publication available
+at https://seg.org/Publications/SEG-Technical-Standards.
+
+jsf2segy will now (as of 5 November 2018) allow record length changes in the subbottom data.
+If a record length change is detected, the current .sgy file is closed and a new .sgy file started.
+
+Please note: the jsf format represents navigation data in one of three formats that are not quite
+compatable with any SEGY trace header descriptors.
+
+jsf bytes 80 -> 83 are described as "X in millimeters or decimeters or Longitude in Minutes of Arc / 10000 (INT32).
+
+jsf bytes 84 -> 87 are described as "Y in millimeters or decimeters or Latitude in 0.0001 Minutes of Arc (INT32).
+
+jsf bytes 88 -> 89 are described as "Coordinate Units: 1 = X, Y in millimeters, 2 =  Longitude, Latitude in
+minutes of arc times 10-4, 3 = X,Y in decimeters.
+
+jsf bytes 136 -> 139 are defined as Depth in Millimeters. The values represent the pressure depth of the vehicle in the water column.
+jsf bytes 136 -> 139 are placed in Segy Rev 1 bytes 41 -> 44 and 45 -> 48.
+
+jsf bytes 144 -> 147 are defined as Altitude in Millimeters. The value represents the water depth below the vehicle.
+jsf bytes 144 -> 147 are placed in Segy Rev 1 trace header bytes 61 -> 64 and bytes 65 -> 68.
+I believe the vehicle water depth is only valid if Discover is bottom tracking.
+
+Other programs of interest:
+
+lstjsf: lists the number of subbottom and sidescan records, lists selected parts of sidescan or subbottom jsf headers.
+
+jsfmesgtype: lists the jsf message type and message type count of a given Edgetech .jsf file.
+
+TFO
+
